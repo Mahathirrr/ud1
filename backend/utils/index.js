@@ -1,6 +1,6 @@
-import bcrypt from "bcrypt";
+import bcrypt from 'bcrypt';
 
-export const hashPassword = async (password) => {
+const hashPassword = async (password) => {
   const saltRounds = 10;
   try {
     const hash = await bcrypt.hash(password, saltRounds);
@@ -9,13 +9,13 @@ export const hashPassword = async (password) => {
     return null;
   }
 };
-
-export const comparePassword = function (hashedPassword, password) {
+const comparePassword = function (hashedPassword, password) {
   return bcrypt.compare(hashedPassword, password);
 };
 
-export const createSlug = (title) =>
-  title.toLowerCase().trim().replace(/ /g, "-");
+const createSlug = (title) => title.toLowerCase().trim().replace(/ /g, '-');
 
-export const snakeCaseToTitle = (word) =>
-  word.replaceAll("-", " ").replace(/(^\w|\s\w)/g, (m) => m.toUpperCase());
+const snakeCaseToTitle = (word) =>
+  word.replaceAll('-', ' ').replace(/(^\w|\s\w)/g, (m) => m.toUpperCase());
+
+export { hashPassword, comparePassword, createSlug, snakeCaseToTitle };

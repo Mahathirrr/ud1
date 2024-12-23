@@ -1,11 +1,11 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 const { ObjectId } = Schema;
 
 const enrolledCourses = new Schema(
   {
-    course: { type: ObjectId, ref: "Course" },
+    course: { type: ObjectId, ref: 'Course' },
     enrolledOn: Date,
   },
   {
@@ -34,20 +34,23 @@ const userSchema = new Schema(
     },
     avatar: {
       type: String,
-      default: "/avatar.svg",
+      default: '/avatar.svg',
     },
     role: {
       type: [String],
-      default: ["Subscriber"],
-      enum: ["Subscriber", "Instructor", "Admin"],
+      default: ['Subscriber'],
+      enum: ['Subscriber', 'Instructor', 'Admin'],
     },
-    cart: { type: [ObjectId], ref: "Course" },
-    wishlist: { type: [ObjectId], ref: "Course" },
+    // instructorProfile: { type: ObjectId, ref: 'Instructor' },
+    // postedCourses: { type: [ObjectId], ref: 'Course' },
+    // createdInstructors: { type: [ObjectId], ref: 'Instructor' },
+    cart: { type: [ObjectId], ref: 'Course' },
+    wishlist: { type: [ObjectId], ref: 'Course' },
     enrolledCourses: {
       type: [enrolledCourses],
     },
     interests: [],
-    stripe_account_id: "",
+    stripe_account_id: '',
     stripe_seller: {},
     stripeSession: {},
   },
@@ -56,4 +59,8 @@ const userSchema = new Schema(
   }
 );
 
-export const User = mongoose.model("User", userSchema);
+// userSchema.methods.comparePassword = function (password) {
+//   return bcrypt.compare(password, this.password);
+// };
+
+export const User = mongoose.model('User', userSchema);

@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon -r esm server.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +20,7 @@
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
+    "esm": "^3.2.25",
     "express": "^4.17.1",
     "express-jwt": "^6.1.0",
     "jsonwebtoken": "^8.5.1",
