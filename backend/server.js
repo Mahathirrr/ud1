@@ -5,6 +5,11 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import morgan from "morgan";
 
+import authRoutes from "./routes/auth.js";
+import courseRoutes from "./routes/course.js";
+import instructorRoutes from "./routes/instructor.js";
+import userRoutes from "./routes/user.js";
+
 // Create express app
 const app = express();
 dotenv.config();
@@ -31,7 +36,11 @@ app.get("/", (req, res) => {
   res.send("API available at /api");
 });
 
-readdirSync("./routes").map((r) => app.use("/api", require(`./routes/${r}`)));
+// Routes
+app.use("/api", authRoutes);
+app.use("/api", courseRoutes);
+app.use("/api", instructorRoutes);
+app.use("/api", userRoutes);
 
 const PORT = process.env.PORT || 8000;
 

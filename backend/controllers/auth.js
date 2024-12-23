@@ -1,27 +1,26 @@
-import jwt from 'jsonwebtoken';
-
-import { User } from '../models/user';
-
-import { comparePassword, hashPassword } from '../utils';
-
-import { interests } from '../data/interests';
+import jwt from "jsonwebtoken";
+import { User } from "../models/user.js";
+import { comparePassword, hashPassword } from "../utils/index.js";
+import { interests } from "../data/interests.js";
 
 const register = async (req, res) => {
   try {
-    return res.status(503).send({ errorMessage: "Sign-up is disabled temporarily!" });
-    
+    return res
+      .status(503)
+      .send({ errorMessage: "Sign-up is disabled temporarily!" });
+
     const { name, email, password } = req.body;
 
     if (!name)
-      return res.status(400).send({ errorMessage: 'Name is required.' });
+      return res.status(400).send({ errorMessage: "Name is required." });
 
     if (!email)
-      return res.status(400).send({ errorMessage: 'Email is required.' });
+      return res.status(400).send({ errorMessage: "Email is required." });
 
     if (!password || password.length < 6) {
       return res.status(400).send({
         errorMessage:
-          'Password is required and must be at least 6 characters long.',
+          "Password is required and must be at least 6 characters long.",
       });
     }
 
@@ -30,7 +29,7 @@ const register = async (req, res) => {
     if (userExists) {
       return res.status(400).send({
         errorMessage:
-          'This email address is already associated with another account. Try with another email.',
+          "This email address is already associated with another account. Try with another email.",
       });
     }
 
@@ -45,15 +44,14 @@ const register = async (req, res) => {
         _id: user._id,
       },
       process.env.JWT_SECRET,
-      { expiresIn: '7d' }
+      { expiresIn: "7d" }
     );
 
     user.password = undefined;
 
-    res.cookie('token', token, {
+    res.cookie("token", token, {
       httpOnly: true,
-      // domain: '',
-      secure: process.env.NODE_ENV !== 'development', // Only works on https
+      secure: process.env.NODE_ENV !== "development",
     });
 
     return res.json({ ...user.toObject({ getters: true }), token });
@@ -67,7 +65,7 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email) {
-      return res.status(400).send('Please enter a valid email address.');
+      return res.status(400).send("Please enter a valid email address.");
     }
 
     const user = await User.findOne({ email }).lean().exec();
@@ -81,16 +79,15 @@ const login = async (req, res) => {
             _id: user._id,
           },
           process.env.JWT_SECRET,
-          { expiresIn: '7d' }
+          { expiresIn: "7d" }
         );
 
         user.password = undefined;
         user.token = token;
 
-        res.cookie('token', token, {
+        res.cookie("token", token, {
           httpOnly: true,
-          // domain: '',
-          secure: process.env.NODE_ENV !== 'development', // Only works on https
+          secure: process.env.NODE_ENV !== "development",
         });
 
         return res.json(user);
@@ -110,8 +107,8 @@ const login = async (req, res) => {
 
 const logout = (req, res) => {
   try {
-    res.clearCookie('token');
-    return res.json('Successfully logged out.');
+    res.clearCookie("token");
+    return res.json("Successfully logged out.");
   } catch (error) {
     console.log(error);
   }
